@@ -1,0 +1,62 @@
+version: "3"
+services:
+  mongo-app:
+    container_name: crud-api
+    image: mongoapp
+    ports:
+      - "8080:8080"
+    networks:
+      - first-network
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://renan:123@cluster0.kakxd.mongodb.net/test
+      - SPRING_DATA_MONGODB_DATABASE=test
+      - SERVER_PORT=8080
+
+  validator-app:
+    container_name: validator-api
+    image: validatorapp
+    ports:
+      - "8081:8081"
+    networks:
+      - first-network
+    depends_on:
+      - mongo-app
+    environment:
+      - SERVER_PORT=8081
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - first-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - first-network
+networks:
+  first-network:
+    external: true
+    driver: bridge

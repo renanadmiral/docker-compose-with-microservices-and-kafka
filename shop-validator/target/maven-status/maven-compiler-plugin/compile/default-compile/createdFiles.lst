@@ -1,0 +1,12 @@
+com\letscode\validator\dto\product\ProductsDTO$ProductsDTOBuilder.class
+com\letscode\validator\kafka\ReceiveKafkaMessage.class
+com\letscode\validator\dto\request\RequestProductShopDTO.class
+com\letscode\validator\service\ShopService.class
+com\letscode\validator\dto\product\ProductsDTO.class
+com\letscode\validator\service\CustomerService.class
+com\letscode\validator\dto\customer\CustomerDTO.class
+com\letscode\validator\dto\product\ProductDTO.class
+com\letscode\validator\dto\request\RequestShopDTO.class
+com\letscode\validator\service\ProductService.class
+com\letscode\validator\ValidatorApplication.class
+com\letscode\validator\kafka\KafkaConfig.class
