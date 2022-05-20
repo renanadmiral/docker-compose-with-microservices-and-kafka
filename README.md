@@ -1,6 +1,6 @@
 Hello!
 
-To run the project, you must open both projects and run the commands -> mvn clean install && docker build -t <imagename> .
+To run the project, you must open both projects and run the commands -> mvn clean install && docker build -t <-imagename-> .
   
   Then, return to root folder and run -> docker-compose up
   
